@@ -40,6 +40,6 @@ export interface GameState {
   levelCorrect: number;
   levelMistakes: number;
   answered: null | { choice: number; ok: boolean };
-  failReason?: "time" | "score";
+  failReason?: "time" | "score" | undefined;
   wrongPulse: number;
 }

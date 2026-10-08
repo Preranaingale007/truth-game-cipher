@@ -73,12 +73,12 @@ export function Sequence({ beats, onDone }: { beats: { node: ReactNode; ms: numb
   const [i, setI] = useState(0);
   useEffect(() => {
     if (i >= beats.length) { onDone(); return; }
-    const t = setTimeout(() => setI(i + 1), beats[i].ms);
+    const t = setTimeout(() => setI(i + 1), beats[i]!.ms);
     return () => clearTimeout(t);
   }, [i, beats, onDone]);
   return (
     <>
-      {beats[Math.min(i, beats.length - 1)].node}
+      {beats[Math.min(i, beats.length - 1)]!.node}
       <button onClick={onDone} className="fixed bottom-5 right-5 z-50 font-mono text-[10px] tracking-[0.3em] text-muted-foreground hover:text-foreground">SKIP ▸▸</button>
     </>
   );

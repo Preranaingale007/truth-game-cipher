@@ -91,7 +91,7 @@ export function LevelIntro() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="font-mono text-xs tracking-[0.5em] text-signal">{L.code}</motion.div>
         <motion.h2 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mt-2 font-display text-4xl font-bold tracking-[0.2em] sm:text-6xl">{L.title}</motion.h2>
         <p className="mt-2 font-mono text-sm tracking-[0.3em] text-steel">TOPIC · {L.topic.toUpperCase()}</p>
-        <div className="mt-8"><HostScreen line={L.hostIntro[i]} /></div>
+        <div className="mt-8"><HostScreen line={L.hostIntro[i] ?? ""} /></div>
         <p className="mt-6 font-mono text-[11px] tracking-[0.2em] text-muted-foreground">{L.questions.length} CHALLENGES · {L.required} CORRECT TO UNLOCK · {formatTime(L.timeLimit)} ON THE CLOCK</p>
         <button onClick={() => { startAudio(); dispatch({ type: "BEGIN_LEVEL" }); }} className="glow-signal mt-6 bg-primary px-8 py-3 font-mono text-sm font-bold tracking-[0.3em] text-primary-foreground hover:brightness-125">BEGIN ▸</button>
       </div>
