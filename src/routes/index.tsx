@@ -1,24 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
+import { GameProvider, useGame } from "@/game/engine";
+import { Play } from "@/components/game/Play";
+import { Boot, Ending, Intro, LevelComplete, LevelFailed, LevelIntro } from "@/components/game/Screens";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "The Logic Games — Player 047" },
+      { name: "description", content: "A cinematic survival-puzzle game of Discrete Mathematics. Four games. Four doors. One way out." },
+      { property: "og:title", content: "The Logic Games — Player 047" },
+      { property: "og:description", content: "Think carefully. Every answer matters. A cinematic Discrete Mathematics escape game." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Router() {
+  const { state } = useGame();
+  const key = state.phase === "playing" ? `play-${state.level}` : `${state.phase}-${state.level}`;
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <AnimatePresence mode="wait">
+      <motion.div key={key} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
+        {state.phase === "boot" && <Boot />}
+        {state.phase === "intro" && <Intro />}
+        {state.phase === "levelIntro" && <LevelIntro />}
+        {state.phase === "playing" && <Play />}
+        {state.phase === "levelComplete" && <LevelComplete />}
+        {state.phase === "levelFailed" && <LevelFailed />}
+        {state.phase === "ending" && <Ending />}
+      </motion.div>
+    </AnimatePresence>
   );
+}
+
+function Index() {
+  return <GameProvider><Router /></GameProvider>;
 }
