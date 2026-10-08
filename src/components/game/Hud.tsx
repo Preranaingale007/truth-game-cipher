@@ -35,7 +35,7 @@ function Stat({ label, value, tone = "" }: { label: string; value: string | numb
 
 export function Hud({ s }: { s: GameState }) {
   const [muted, setMuted] = useState(false);
-  const L = LEVELS[s.level];
+  const L = LEVELS[s.level]!;
   return (
     <header className="relative z-20 border-b border-border bg-void/70 backdrop-blur">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-2.5">

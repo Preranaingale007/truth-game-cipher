@@ -35,7 +35,7 @@ export function Boot() {
           </button>
           {saved && (
             <button onClick={() => { startAudio(); dispatch({ type: "RESUME", state: saved }); }} className="border border-foreground/50 px-8 py-3 font-mono text-sm tracking-[0.3em] hover:bg-foreground/10">
-              CONTINUE · {LEVELS[saved.level].code}
+              CONTINUE · {LEVELS[saved.level]!.code}
             </button>
           )}
         </div>
@@ -80,9 +80,9 @@ export function Intro() {
 
 export function LevelIntro() {
   const { state, dispatch } = useGame();
-  const L = LEVELS[state.level];
+  const L = LEVELS[state.level]!;
   const [i, setI] = useState(0);
-  useEffect(() => { if (i < L.hostIntro.length - 1) { const t = setTimeout(() => setI(i + 1), 2600); return () => clearTimeout(t); } }, [i, L]);
+  useEffect(() => { if (i < L.hostIntro.length - 1) { const t = setTimeout(() => setI(i + 1), 2600); return () => clearTimeout(t); } return undefined; }, [i, L]);
   return (
     <Center>
       <motion.img src={ENV_IMG[L.env]} alt="" initial={{ scale: 1.2, opacity: 0 }} animate={{ scale: 1, opacity: 0.45 }} transition={{ duration: 3 }} className="absolute inset-0 h-full w-full object-cover" />
@@ -101,7 +101,7 @@ export function LevelIntro() {
 
 export function LevelComplete() {
   const { state, dispatch } = useGame();
-  const L = LEVELS[state.level];
+  const L = LEVELS[state.level]!;
   const [open, setOpen] = useState(false);
   useEffect(() => { const t = setTimeout(() => { setOpen(true); blip("open"); }, 1400); return () => clearTimeout(t); }, []);
   return (
@@ -133,7 +133,7 @@ export function LevelComplete() {
 
 export function LevelFailed() {
   const { state, dispatch } = useGame();
-  const L = LEVELS[state.level];
+  const L = LEVELS[state.level]!;
   return (
     <Center className="glitch">
       <div className="pulse-red absolute inset-0 bg-[radial-gradient(circle,var(--signal)_0%,transparent_60%)] opacity-20" />

@@ -42,7 +42,7 @@ export function QuestionPanel({ q, index, total, answered, onAnswer, onNext }: P
           const isAns = answered && i === q.answer;
           const isWrongPick = answered && i === answered.choice && !answered.ok;
           return (
-            <motion.button key={i} disabled={!!answered} onClick={() => onAnswer(i)} whileHover={answered ? undefined : { x: 4 }}
+            <motion.button key={i} disabled={!!answered} onClick={() => onAnswer(i)} whileHover={answered ? {} : { x: 4 }}
               className={`group flex items-center gap-3 border px-4 py-3 text-left font-mono text-sm transition-colors ${isAns ? "border-success bg-success/15 text-success" : isWrongPick ? "border-signal bg-signal/15 text-signal" : "border-border hover:border-foreground/60 hover:bg-foreground/5"} disabled:cursor-default`}>
               <span className="text-[10px] text-muted-foreground group-hover:text-foreground">{String.fromCharCode(65 + i)}</span>
               {o}

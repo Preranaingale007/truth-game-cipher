@@ -11,8 +11,8 @@ import { QuestionPanel } from "./QuestionPanel";
 export function Play() {
   const { state: s, dispatch } = useGame();
   useCountdown();
-  const L = LEVELS[s.level];
-  const q = L.questions[s.qIndex];
+  const L = LEVELS[s.level]!;
+  const q = L.questions[s.qIndex]!;
   const [host, setHost] = useState<string | null>(null);
   const [interrupt, setInterrupt] = useState(false);
   const [glitch, setGlitch] = useState(false);
@@ -38,7 +38,7 @@ export function Play() {
       line = s.levelMistakes >= 3 ? "Perhaps you are not ready." : "That was careless.";
       if (s.threat >= 5 && !interruptedRef.current) { interruptedRef.current = true; setTimeout(() => setInterrupt(true), 900); }
     }
-    if (line) { setHost(line); const t = setTimeout(() => setHost(null), 3200); return () => clearTimeout(t); }
+    if (line) { setHost(line); const t = setTimeout(() => setHost(null), 3200); return () => clearTimeout(t); } return undefined;
   }, [s.answered]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

@@ -6,7 +6,7 @@ const KEY = "logic-games-047-v1";
 
 export const initialState: GameState = {
   phase: "boot", level: 0, qIndex: 0, score: 0, correct: 0, mistakes: 0, threat: 1,
-  timeLeft: LEVELS[0].timeLimit, streak: 0, levelCorrect: 0, levelMistakes: 0, answered: null, wrongPulse: 0,
+  timeLeft: LEVELS[0]!.timeLimit, streak: 0, levelCorrect: 0, levelMistakes: 0, answered: null, wrongPulse: 0,
 };
 
 export type Action =
@@ -16,7 +16,7 @@ export type Action =
 
 const levelReset = (s: GameState, level: number): GameState => ({
   ...s, level, qIndex: 0, levelCorrect: 0, levelMistakes: 0, answered: null, streak: 0,
-  timeLeft: LEVELS[level].timeLimit, threat: Math.max(1, s.threat - 2), failReason: undefined,
+  timeLeft: LEVELS[level]!.timeLimit, threat: Math.max(1, s.threat - 2), failReason: undefined,
 });
 
 export function reducer(s: GameState, a: Action): GameState {
@@ -27,14 +27,14 @@ export function reducer(s: GameState, a: Action): GameState {
     case "BEGIN_LEVEL": return { ...levelReset(s, s.level), threat: s.threat, phase: "playing" };
     case "ANSWER": {
       if (s.answered || s.phase !== "playing") return s;
-      const q = LEVELS[s.level].questions[s.qIndex];
+      const q = LEVELS[s.level]!.questions[s.qIndex]!;
       const ok = a.choice === q.answer;
       return ok
         ? { ...s, answered: { choice: a.choice, ok }, correct: s.correct + 1, levelCorrect: s.levelCorrect + 1, streak: s.streak + 1, score: s.score + 100 + s.streak * 25 + Math.floor(s.timeLeft / 10) }
         : { ...s, answered: { choice: a.choice, ok }, mistakes: s.mistakes + 1, levelMistakes: s.levelMistakes + 1, streak: 0, threat: Math.min(5, s.threat + 1), timeLeft: Math.max(1, s.timeLeft - 15), wrongPulse: s.wrongPulse + 1 };
     }
     case "NEXT": {
-      const L = LEVELS[s.level];
+      const L = LEVELS[s.level]!;
       if (s.qIndex + 1 < L.questions.length) return { ...s, qIndex: s.qIndex + 1, answered: null };
       return s.levelCorrect >= L.required ? { ...s, answered: null, phase: "levelComplete" } : { ...s, answered: null, phase: "levelFailed", failReason: "score" };
     }
