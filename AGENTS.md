@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- Game state lives in a reducer in src/game/engine.tsx; question content is data in src/game/questions.ts — keep UI free of hardcoded questions.

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import hall from "@/assets/hall.jpg";
 import { blip, startAudio } from "@/game/audio";
 import { useGame } from "@/game/engine";
@@ -9,7 +9,7 @@ import { HostScreen } from "./Host";
 import { formatTime } from "./Hud";
 import { Atmosphere, Camera, Glyph, Sequence, Sigil } from "./Visuals";
 
-const Center = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+const Center = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
   <div className={`relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-void px-6 text-center ${className}`}>{children}</div>
 );
 const Term = ({ t }: { t: string }) => (
